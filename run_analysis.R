@@ -31,7 +31,7 @@ dat.feat <- dat[,c(1,2,feat.selec)]
 
 ## Add descriptive activity names
 
-act.vec <- merge(dat.feat, activity, by.x="V1", by.y="V1")
+act.vec <-  factor(dat.feat$V1, levels = activity[,1], labels = activity[,2])
 dat.name <- cbind(dat.feat[,2], act.vec, dat.feat[,3:ncol(dat.feat)])
 
 ## Add descriptive variable names
@@ -44,7 +44,6 @@ colnames(dat.name) <- c("subject", "activity", feat.names)
 ## Average each variable for each activity and each subject
 
 dat.name$subject <- as.factor(dat.name$subject)
-dat.name$activity <- as.factor(dat.name$activity)
 dat.melt <- melt(dat.name, id = c("subject", "activity"))
 tidy.data <- dcast(dat.melt, subject + activity ~ variable, mean)
 
